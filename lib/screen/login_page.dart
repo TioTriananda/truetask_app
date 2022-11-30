@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(child: Image.asset('assets/Truetask.png')),
+          Center(child: Image.asset('assets/image/Truetask.png')),
           const SizedBox(height: 42),
           const Text(
             "LOGIN",

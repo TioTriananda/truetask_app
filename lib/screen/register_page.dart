@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:truetask_app/screen/login_page.dart';
 import 'package:truetask_app/utils/validator.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -9,8 +10,11 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _nameController = TextEditingController();
+  final _firstnameController = TextEditingController();
+  final _lastnameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -18,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool _obscureText = true;
   bool _obscureText2 = true;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +49,84 @@ class _RegisterPageState extends State<RegisterPage> {
               key: _formKey,
               child: Column(
                 children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _firstnameController,
+                          validator: (value) =>
+                              _validator.validateField(field: value!),
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.person_outline),
+                            hintText: 'firstname',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide:
+                                  BorderSide(width: 3, color: Colors.blue),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide:
+                                  BorderSide(width: 3, color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: TextFormField(
+                          controller: _lastnameController,
+                          validator: (value) =>
+                              Validator().validateField(field: value!),
+                          decoration: const InputDecoration(
+                            hintText: 'lastname',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(color: Colors.blue),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide:
+                                  BorderSide(width: 3, color: Colors.blue),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              borderSide:
+                                  BorderSide(width: 3, color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
                   TextFormField(
-                    controller: _nameController,
+                    controller: _emailController,
                     validator: (value) =>
-                        _validator.validateField(field: value!),
+                        Validator().validateField(field: value!),
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.person_outline),
-                      hintText: 'enter your name',
+                      prefixIcon: Icon(Icons.mail_outline),
+                      hintText: 'enter your email',
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         borderSide: BorderSide(color: Colors.blue),
@@ -71,12 +147,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
-                    controller: _emailController,
+                    controller: _phoneController,
                     validator: (value) =>
                         Validator().validateField(field: value!),
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.mail_outline),
-                      hintText: 'enter your email',
+                      prefixIcon: Icon(Icons.phone_outlined),
+                      hintText: 'enter your phone number',
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         borderSide: BorderSide(color: Colors.blue),
@@ -174,16 +250,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {}
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("Semua field wajib diisi!")),
-                        );
                       },
-                      child: const Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            fontSize: 21, fontWeight: FontWeight.bold),
-                      ),
+                      child: _isLoading
+                          ? const CircularProgressIndicator()
+                          : const Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  fontSize: 21, fontWeight: FontWeight.bold),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -229,7 +303,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         "Already have account?",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      TextButton(onPressed: () {}, child: const Text("Sign in"))
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ));
+                          },
+                          child: const Text("Sign in"))
                     ],
                   )
                 ],
