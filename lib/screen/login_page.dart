@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:truetask_app/main.dart';
 import 'package:truetask_app/screen/register_page.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:truetask_app/utils/validator.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,8 +18,6 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _obscureText = true;
   bool _rememberMe = false;
-  String _email = "";
-  String _password = "";
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ class Welcome extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text(
-            "Hello !\nWelcome to",
+            "Hello !\Welcome to",
             style: TextStyle(
               fontSize: 48,
               fontWeight: FontWeight.bold,
